@@ -1,224 +1,224 @@
 .home {
-  min-height: 100vh;
-  padding: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  transition: background 0.5s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.home.sunny {
-  background: linear-gradient(to bottom, #87ceeb, #ffe57f);
-}
-
-.home.cloudy {
-  background: linear-gradient(to bottom, #bdc3c7, #2c3e50);
-}
-
-.home.rainy {
-  background: linear-gradient(to bottom, #3a3d40, #181719);
-}
-
-.home.snowy {
-  background: linear-gradient(to bottom, #e0eafc, #cfdef3);
-}
-
-.home.stormy {
-  background: linear-gradient(to bottom, #232526, #414345);
-}
-
-.home.default {
-  background: linear-gradient(to bottom right, #0f2027, #203a43, #2c5364);
-}
-
-/* Weather icon that floats */
-.weather-decor {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  font-size: 4rem;
-  opacity: 0.7;
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
-}
-
-/* Symbol logic by theme */
-.sunny .weather-decor::before {
-  content: '☀';
-  color: #ffd700;
-}
-
-.cloudy .weather-decor::before {
-  content: '☁';
-  color: #ccc;
-}
-
-.rainy .weather-decor::before {
-  content: '☔';
-  color: #80d0f0;
-}
-
-.snowy .weather-decor::before {
-  content: '❄';
-  color: #fff;
-}
-
-.stormy .weather-decor::before {
-  content: '⚡';
-  color: #ffcc00;
-}
-
-/* Particle container */
-.weather-particles {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 0;
-}
-
-.home.snowy .particles::before {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: url('https://i.imgur.com/UO2Qh5X.png'); /* small snowflake pattern */
-  animation: snow 20s linear infinite;
-  opacity: 0.3;
-}
-
-@keyframes snow {
-  0% { background-position: 0 0; }
-  100% { background-position: 0 1000px; }
-}
-
-.home.rainy .particles::before {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: url('https://i.imgur.com/Mg6A3jQ.png'); /* rain streak pattern */
-  animation: rain 3s linear infinite;
-  opacity: 0.4;
-}
-
-@keyframes rain {
-  0% { background-position: 0 0; }
-  100% { background-position: 0 100%; }
-}
-
-/* Search form */
-form {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 30px;
-  gap: 10px;
-}
-
-input[type="text"] {
-  padding: 10px 15px;
-  border: none;
-  border-radius: 8px 0 0 8px;
-  font-size: 16px;
-  width: 250px;
-}
-
-button {
-  padding: 10px 20px;
-  border: none;
-  background-color: #007bff;
-  color: #fff;
-  font-size: 16px;
-  border-radius: 0 8px 8px 0;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-h2, h3 {
-  text-align: center;
-}
-
-/* Loader animation */
-.loading {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.loading::after {
-  content: '';
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  border: 4px solid #fff;
-  border-top: 4px solid transparent;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-left: 10px;
-  vertical-align: middle;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Error */
-.error-message {
-  text-align: center;
-  font-size: 1.2rem;
-  margin-top: 20px;
-  color: #ccc;
-}
-
-/* Favorites */
-.home > div:first-child button {
-  background-color: #444;
-  color: #fff;
-  border: 1px solid #666;
-  border-radius: 20px;
-  padding: 8px 16px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.home > div:first-child button:hover {
-  background-color: #666;
-}
-
-/* Autocomplete dropdown */
-.autocomplete-dropdown {
-  list-style: none;
-  padding: 0;
-  margin: -20px auto 20px auto;
-  width: 260px;
-  background-color: #fff;
-  color: #000;
-  border-radius: 8px;
-  overflow: hidden;
-  max-height: 180px;
-  overflow-y: auto;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  z-index: 10;
-  position: relative;
-}
-
-.autocomplete-dropdown li {
-  padding: 10px;
-  cursor: pointer;
-}
-
-.autocomplete-dropdown li:hover {
-  background-color: #f0f0f0;
-}
+    min-height: 100vh;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background 0.5s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .home.sunny {
+    background: linear-gradient(to bottom, #87ceeb, #ffe57f);
+  }
+  
+  .home.cloudy {
+    background: linear-gradient(to bottom, #bdc3c7, #2c3e50);
+  }
+  
+  .home.rainy {
+    background: linear-gradient(to bottom, #3a3d40, #181719);
+  }
+  
+  .home.snowy {
+    background: linear-gradient(to bottom, #e0eafc, #cfdef3);
+  }
+  
+  .home.stormy {
+    background: linear-gradient(to bottom, #232526, #414345);
+  }
+  
+  .home.default {
+    background: linear-gradient(to bottom right, #0f2027, #203a43, #2c5364);
+  }
+  
+  /* Weather icon that floats */
+  .weather-decor {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 4rem;
+    opacity: 0.7;
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+  }
+  
+  /* Symbol logic by theme */
+  .sunny .weather-decor::before {
+    content: '☀';
+    color: #ffd700;
+  }
+  
+  .cloudy .weather-decor::before {
+    content: '☁';
+    color: #ccc;
+  }
+  
+  .rainy .weather-decor::before {
+    content: '☔';
+    color: #80d0f0;
+  }
+  
+  .snowy .weather-decor::before {
+    content: '❄';
+    color: #fff;
+  }
+  
+  .stormy .weather-decor::before {
+    content: '⚡';
+    color: #ffcc00;
+  }
+  
+  /* Particle container */
+  .weather-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+  
+  .home.snowy .particles::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url('https://i.imgur.com/UO2Qh5X.png'); /* small snowflake pattern */
+    animation: snow 20s linear infinite;
+    opacity: 0.3;
+  }
+  
+  @keyframes snow {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 1000px; }
+  }
+  
+  .home.rainy .particles::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    /* background: url('https://i.imgur.com/UO2Qh5X.png');  */
+    animation: rain 3s linear infinite;
+    opacity: 0.4;
+  }
+  
+  @keyframes rain {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 100%; }
+  }
+  
+  /* Search form */
+  form {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    gap: 10px;
+  }
+  
+  input[type="text"] {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px 0 0 8px;
+    font-size: 16px;
+    width: 250px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 0 8px 8px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  h2, h3 {
+    text-align: center;
+  }
+  
+  /* Loader animation */
+  .loading {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .loading::after {
+    content: '';
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 4px solid #fff;
+    border-top: 4px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-left: 10px;
+    vertical-align: middle;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* Error */
+  .error-message {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-top: 20px;
+    color: #ccc;
+  }
+  
+  /* Favorites */
+  .home > div:first-child button {
+    background-color: #444;
+    color: #fff;
+    border: 1px solid #666;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .home > div:first-child button:hover {
+    background-color: #666;
+  }
+  
+  /* Autocomplete dropdown */
+  .autocomplete-dropdown {
+    list-style: none;
+    padding: 0;
+    margin: -20px auto 20px auto;
+    width: 260px;
+    background-color: #fff;
+    color: #000;
+    border-radius: 8px;
+    overflow: hidden;
+    max-height: 180px;
+    overflow-y: auto;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    z-index: 10;
+    position: relative;
+  }
+  
+  .autocomplete-dropdown li {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .autocomplete-dropdown li:hover {
+    background-color: #f0f0f0;
+  }

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { fetchWeatherByCity, fetchForecastByCity, searchCities } from '../utils/api';
 import WeatherCard from '../components/WeatherCard';
 import ForecastRowGrouped from '../components/ForecastRow';
+import HourlyForecast from '../components/HourlyForecast';
+import WeatherTrendsChart from '../components/WeatherTrendsChart';
 import './home.css';
 
 const Home = () => {
@@ -163,6 +165,8 @@ const Home = () => {
             min={weather.main.temp_min}
             max={weather.main.temp_max}
           />
+          <HourlyForecast forecast={forecast} />
+          {forecast.length > 0 && <WeatherTrendsChart forecast={forecast} />}
           {!favorites.includes(weather.name) && (
             <button
               onClick={() => {
