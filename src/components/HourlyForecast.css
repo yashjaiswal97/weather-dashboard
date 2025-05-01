@@ -1,0 +1,49 @@
+
+
+.hourly-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 12px;
+    padding: 16px 0;
+    margin-top: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: #888 transparent;
+    justify-content: center;
+  }
+  
+  .hourly-container::-webkit-scrollbar {
+    height: 6px;
+  }
+  
+  .hourly-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+  
+  .hour-card {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    min-width: 90px;
+    text-align: center;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .hour-time {
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+    color: #eee;
+  }
+  
+  .hour-icon {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .hour-temp {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 6px;
+  }
