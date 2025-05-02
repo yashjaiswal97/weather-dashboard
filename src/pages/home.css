@@ -1,3 +1,5 @@
+/* src/pages/Home/Home.css */
+
 .home {
     min-height: 100vh;
     padding: 20px;
@@ -7,31 +9,48 @@
     overflow: hidden;
   }
   
-  .home.sunny {
-    background: linear-gradient(to bottom, #87ceeb, #ffe57f);
+  /* Time + Weather Themes */
+  .home.day-clear {
+    background: #f8ff30;
+    background: radial-gradient(circle,rgba(248, 255, 48, 1) 0%, rgba(128, 199, 237, 1) 31%, rgba(59, 160, 237, 1) 100%);
   }
-  
-  .home.cloudy {
-    background: linear-gradient(to bottom, #bdc3c7, #2c3e50);
+  .home.day-cloudy {
+    background: #424242;
+    background: linear-gradient(90deg,rgba(66, 66, 66, 1) 0%, rgba(118, 118, 130, 1) 35%, rgba(73, 135, 158, 1) 100%);
   }
-  
-  .home.rainy {
-    background: linear-gradient(to bottom, #3a3d40, #181719);
+  .home.day-rainy {
+    background: #5c8ebf;
+    background: linear-gradient(0deg,rgba(92, 142, 191, 1) 0%, rgba(172, 180, 194, 1) 100%);
   }
-  
-  .home.snowy {
+  .home.day-snowy {
     background: linear-gradient(to bottom, #e0eafc, #cfdef3);
   }
-  
-  .home.stormy {
-    background: linear-gradient(to bottom, #232526, #414345);
+  .home.day-stormy {
+    background: linear-gradient(to bottom, #4b6cb7, #182848);
   }
-  
-  .home.default {
+  .home.day-default {
     background: linear-gradient(to bottom right, #0f2027, #203a43, #2c5364);
   }
   
-  /* Weather icon that floats */
+  .home.night-clear {
+    background: linear-gradient(to bottom, #0f2027, #203a43);
+  }
+  .home.night-cloudy {
+    background: linear-gradient(to bottom, #2c3e50, #4ca1af);
+  }
+  .home.night-rainy {
+    background: linear-gradient(to bottom, #141e30, #243b55);
+  }
+  .home.night-snowy {
+    background: linear-gradient(to bottom, #3a6073, #16222a);
+  }
+  .home.night-stormy {
+    background: linear-gradient(to bottom, #000000, #434343);
+  }
+  .home.night-default {
+    background: linear-gradient(to bottom right, #1c1c1c, #2c2c2c);
+  }
+  
   .weather-decor {
     position: absolute;
     top: 20px;
@@ -41,38 +60,16 @@
     animation: float 3s ease-in-out infinite;
   }
   
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
-  }
-  
-  /* Symbol logic by theme */
-  .sunny .weather-decor::before {
-    content: '☀';
+  .day-clear .weather-decor::before {
+    content: '\2600'; /* ☀ */
     color: #ffd700;
   }
   
-  .cloudy .weather-decor::before {
-    content: '☁';
-    color: #ccc;
+  .night-clear .weather-decor::before {
+    content: '\1F319'; /* 🌙 */
+    color: #e0e0ff;
   }
   
-  .rainy .weather-decor::before {
-    content: '☔';
-    color: #80d0f0;
-  }
-  
-  .snowy .weather-decor::before {
-    content: '❄';
-    color: #fff;
-  }
-  
-  .stormy .weather-decor::before {
-    content: '⚡';
-    color: #ffcc00;
-  }
-  
-  /* Particle container */
   .weather-particles {
     position: absolute;
     top: 0;
@@ -84,37 +81,99 @@
     z-index: 0;
   }
   
-  .home.snowy .particles::before {
+  /* Star Animation */
+  .night-clear .weather-particles::before {
     content: '';
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    background: url('https://i.imgur.com/UO2Qh5X.png'); /* small snowflake pattern */
-    animation: snow 20s linear infinite;
+    /* background: url('star.png'); */
+    background-repeat: repeat;
+    animation: stars 60s linear infinite;
     opacity: 0.3;
   }
-  
-  @keyframes snow {
-    0% { background-position: 0 0; }
-    100% { background-position: 0 1000px; }
+  .rain-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
   }
   
-  .home.rainy .particles::before {
-    content: '';
+  .raindrop {
     position: absolute;
+    top: -100px;
+    width: 1px;
+    height: 60px;
+    background: rgb(255, 255, 255);
+    animation: fall linear infinite;
+    opacity: 0;
+  }
+  
+  @keyframes fall {
+    0% {
+      transform: translateY(-100px);
+      opacity: 0.2;
+    }
+    100% {
+      transform: translateY(110vh);
+      opacity: 0;
+    }
+  }
+  @keyframes stars {
+    0% { background-position: 0 0; }
+    100% { background-position: 1000px 1000px; }
+  }
+  
+
+  .snow-container {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    /* background: url('https://i.imgur.com/UO2Qh5X.png');  */
-    animation: rain 3s linear infinite;
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  .snowflake {
+    position: absolute;
+    top: -10px;
+    color: #fff;
+    font-size: 18px;
+    user-select: none;
+    animation: fall-snow linear infinite;
+    opacity: 0.8;
+  }
+  
+  @keyframes fall-snow {
+    0% {
+      transform: translateY(0) translateX(0);
+      opacity: 0.6;
+    }
+    100% {
+      transform: translateY(110vh) translateX(20px);
+      opacity: 0;
+    }
+  }
+  /* Optional city lights effect */
+  .night-clear::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+    background: radial-gradient(circle at center, #444 0%, transparent 80%);
     opacity: 0.4;
+    pointer-events: none;
+    z-index: 1;
   }
   
-  @keyframes rain {
-    0% { background-position: 0 0; }
-    100% { background-position: 0 100%; }
-  }
-  
-  /* Search form */
   form {
     display: flex;
     justify-content: center;
@@ -145,11 +204,6 @@
     background-color: #0056b3;
   }
   
-  h2, h3 {
-    text-align: center;
-  }
-  
-  /* Loader animation */
   .loading {
     text-align: center;
     margin-top: 20px;
@@ -173,31 +227,6 @@
     100% { transform: rotate(360deg); }
   }
   
-  /* Error */
-  .error-message {
-    text-align: center;
-    font-size: 1.2rem;
-    margin-top: 20px;
-    color: #ccc;
-  }
-  
-  /* Favorites */
-  .home > div:first-child button {
-    background-color: #444;
-    color: #fff;
-    border: 1px solid #666;
-    border-radius: 20px;
-    padding: 8px 16px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .home > div:first-child button:hover {
-    background-color: #666;
-  }
-  
-  /* Autocomplete dropdown */
   .autocomplete-dropdown {
     list-style: none;
     padding: 0;
@@ -222,3 +251,4 @@
   .autocomplete-dropdown li:hover {
     background-color: #f0f0f0;
   }
+  

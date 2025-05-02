@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { fetchWeatherByCity, fetchForecastByCity, searchCities } from '../utils/api';
+import React, { useState, useEffect, useRef } from 'react';
+import { fetchWeatherByCity, fetchForecastByCity, searchCities, fetchWAQIAqi } from '../utils/api';
 import WeatherCard from '../components/WeatherCard';
 import ForecastRowGrouped from '../components/ForecastRow';
 import HourlyForecast from '../components/HourlyForecast';
 import WeatherTrendsChart from '../components/WeatherTrendsChart';
+import AQICard from '../components/AQICard';
 import './home.css';
 
 const Home = () => {
   const [city, setCity] = useState('');
   const [weather, setWeather] = useState<any>(null);
   const [forecast, setForecast] = useState<any[]>([]);
+  const [aqi, setAqi] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [favorites, setFavorites] = useState<string[]>(() => {
@@ -18,6 +20,18 @@ const Home = () => {
   });
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [theme, setTheme] = useState<string>('default');
+
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const determineTheme = (condition: string, isDay: boolean) => {
+    const prefix = isDay ? 'day' : 'night';
+    if (condition.includes('cloud')) return `${prefix}-cloudy`;
+    if (condition.includes('rain')) return `${prefix}-rainy`;
+    if (condition.includes('clear')) return `${prefix}-clear`;
+    if (condition.includes('snow')) return `${prefix}-snowy`;
+    if (condition.includes('thunder')) return `${prefix}-stormy`;
+    return `${prefix}-default`;
+  };
 
   useEffect(() => {
     const getLocationWeather = () => {
@@ -32,13 +46,20 @@ const Home = () => {
           const data = await res.json();
           setCity(data.name);
           setWeather(data);
+
           const forecastRes = await fetch(
             `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&appid=${process.env.REACT_APP_WEATHER_API_KEY}`
           );
           const forecastData = await forecastRes.json();
           setForecast(forecastData.list);
+
+          const aqiRes = await fetchWAQIAqi(data.name);
+          if (aqiRes.status === 'ok') setAqi(aqiRes.data.aqi);
+
           const condition = data.weather[0].main.toLowerCase();
-          setTheme(determineTheme(condition));
+          const now = data.dt;
+          const isDay = now > data.sys.sunrise && now < data.sys.sunset;
+          setTheme(determineTheme(condition, isDay));
         } catch (error) {
           console.error('Geo weather error', error);
         } finally {
@@ -49,14 +70,49 @@ const Home = () => {
     getLocationWeather();
   }, []);
 
-  const determineTheme = (condition: string) => {
-    if (condition.includes('cloud')) return 'cloudy';
-    if (condition.includes('rain')) return 'rainy';
-    if (condition.includes('clear')) return 'sunny';
-    if (condition.includes('snow')) return 'snowy';
-    if (condition.includes('thunder')) return 'stormy';
-    return 'default';
-  };
+  useEffect(() => {
+    const drops = document.querySelectorAll('.raindrop');
+    drops.forEach(drop => {
+      const el = drop as HTMLElement;
+      el.style.left = `${Math.random() * 100}%`;
+      el.style.animationDuration = `${0.5 + Math.random()}s`;
+      el.style.animationDelay = `${Math.random() * 5}s`;
+    });
+
+    const flakes = document.querySelectorAll('.snowflake');
+    flakes.forEach(flake => {
+      const el = flake as HTMLElement;
+      el.style.left = `${Math.random() * 100}%`;
+      el.style.animationDuration = `${2 + Math.random() * 3}s`;
+      el.style.fontSize = `${14 + Math.random() * 10}px`;
+      el.style.animationDelay = `${Math.random() * 5}s`;
+    });
+  }, [theme]);
+
+  useEffect(() => {
+    if (!audioRef.current) return;
+    const audio = audioRef.current;
+    audio.pause();
+    audio.currentTime = 0;
+
+    if (theme.includes('rainy')) {
+      audio.src = '/sounds/rain.mp3';
+    } else if (theme.includes('clear')) {
+      audio.src = '/sounds/birds.mp3';
+    } else if (theme.includes('cloudy')) {
+      audio.src = '/sounds/wind.mp3';
+    } else if (theme.includes('stormy')) {
+      audio.src = '/sounds/thunder.mp3';
+    } else {
+      audio.src = '';
+    }
+
+    if (audio.src) {
+      audio.volume = 0.2;
+      audio.loop = true;
+      audio.play().catch(err => console.error('Audio error:', err));
+    }
+  }, [theme]);
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,10 +124,17 @@ const Home = () => {
     try {
       const current = await fetchWeatherByCity(city);
       const forecastData = await fetchForecastByCity(city);
+
+      const aqiRes = await fetchWAQIAqi(city);
+      if (aqiRes.status === 'ok') setAqi(aqiRes.data.aqi);
+
       setWeather(current);
       setForecast(forecastData.list);
+
       const condition = current.weather[0].main.toLowerCase();
-      setTheme(determineTheme(condition));
+      const now = current.dt;
+      const isDay = now > current.sys.sunrise && now < current.sys.sunset;
+      setTheme(determineTheme(condition, isDay));
     } catch (err) {
       setError('City not found or API error.');
       setWeather(null);
@@ -89,10 +152,17 @@ const Home = () => {
     try {
       const current = await fetchWeatherByCity(cityName);
       const forecastData = await fetchForecastByCity(cityName);
+
+      const aqiRes = await fetchWAQIAqi(cityName);
+      if (aqiRes.status === 'ok') setAqi(aqiRes.data.aqi);
+
       setWeather(current);
       setForecast(forecastData.list);
+
       const condition = current.weather[0].main.toLowerCase();
-      setTheme(determineTheme(condition));
+      const now = current.dt;
+      const isDay = now > current.sys.sunrise && now < current.sys.sunset;
+      setTheme(determineTheme(condition, isDay));
     } catch (err) {
       setError('City not found.');
       setWeather(null);
@@ -104,18 +174,30 @@ const Home = () => {
 
   return (
     <div className={`home ${theme}`}>
-      <div className="weather-particles">
-        <div className="particles" />
-      </div>
+      <audio ref={audioRef} />
+
+      {theme.includes('rainy') && (
+        <div className="rain-container">
+          {[...Array(100)].map((_, i) => (
+            <div key={i} className="raindrop" />
+          ))}
+        </div>
+      )}
+
+      {theme.includes('snowy') && (
+        <div className="snow-container">
+          {[...Array(80)].map((_, i) => (
+            <div key={i} className="snowflake">❄</div>
+          ))}
+        </div>
+      )}
+
       <div className="weather-decor"></div>
 
       {favorites.length > 0 && (
         <div style={{ marginBottom: '20px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
           {favorites.map((favCity) => (
-            <button
-              key={favCity}
-              onClick={() => handleSearchFromSuggestion(favCity)}
-            >
+            <button key={favCity} onClick={() => handleSearchFromSuggestion(favCity)}>
               {favCity}
             </button>
           ))}
@@ -165,8 +247,12 @@ const Home = () => {
             min={weather.main.temp_min}
             max={weather.main.temp_max}
           />
+
+          {aqi !== null && <AQICard aqi={aqi} />}
+
           <HourlyForecast forecast={forecast} />
-          {forecast.length > 0 && <WeatherTrendsChart forecast={forecast} />}
+          <WeatherTrendsChart forecast={forecast} />
+
           {!favorites.includes(weather.name) && (
             <button
               onClick={() => {
