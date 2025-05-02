@@ -40,6 +40,8 @@ const ForecastRowGrouped: React.FC<ForecastRowGroupedProps> = ({ forecast }) => 
               className="forecast-icon"
             />
             <p className="forecast-temp">{Math.round(averageTemp)}°C</p>
+            
+            
           </div>
         );
       })}

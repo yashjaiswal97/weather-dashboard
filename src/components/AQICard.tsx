@@ -1,3 +1,4 @@
+// src/components/AQICard.tsx
 import React from 'react';
 import './AQICard.css';
 
@@ -6,14 +7,12 @@ interface AQICardProps {
 }
 
 const getAQIDescription = (value: number) => {
-  switch (value) {
-    case 1: return { label: 'Good', color: '#50f0e6' };
-    case 2: return { label: 'Fair', color: '#50ccaa' };
-    case 3: return { label: 'Moderate', color: '#f0e641' };
-    case 4: return { label: 'Poor', color: '#ff5050' };
-    case 5: return { label: 'Very Poor', color: '#960032' };
-    default: return { label: 'Unknown', color: '#999' };
-  }
+  if (value <= 50) return { label: 'Good', color: '#50f0e6' };
+  if (value <= 100) return { label: 'Moderate', color: '#f0e641' };
+  if (value <= 150) return { label: 'Unhealthy for Sensitive Groups', color: '#ffb347' };
+  if (value <= 200) return { label: 'Unhealthy', color: '#ff5050' };
+  if (value <= 300) return { label: 'Very Unhealthy', color: '#960032' };
+  return { label: 'Hazardous', color: '#7e0023' };
 };
 
 const AQICard: React.FC<AQICardProps> = ({ aqi }) => {
