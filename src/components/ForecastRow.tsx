@@ -26,7 +26,7 @@ const ForecastRowGrouped: React.FC<ForecastRowGroupedProps> = ({ forecast }) => 
 
   return (
     <div className="forecast-grouped">
-      {Object.entries(grouped).slice(0, 5).map(([date, entries]) => {
+      {Object.entries(grouped).slice(0, 3).map(([date, entries]) => {
         const averageTemp =
           entries.reduce((sum, entry) => sum + entry.main.temp, 0) / entries.length;
         const icon = entries[0].weather[0].icon;
