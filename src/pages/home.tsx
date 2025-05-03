@@ -236,42 +236,57 @@ const Home = () => {
       {loading && <p className="loading">Loading</p>}
       {error && <p>{error}</p>}
 
-      {weather && (
-        <>
-          <WeatherCard
-            city={weather.name}
-            temperature={weather.main.temp}
-            description={weather.weather[0].description}
-            icon={weather.weather[0].icon}
-            feelsLike={weather.main.feels_like}
-            min={weather.main.temp_min}
-            max={weather.main.temp_max}
-          />
-
-          {aqi !== null && <AQICard aqi={aqi} />}
-
-          <HourlyForecast forecast={forecast} />
-          <WeatherTrendsChart forecast={forecast} />
-
-          {!favorites.includes(weather.name) && (
-            <button
-              onClick={() => {
-                const updated = [...favorites, weather.name];
-                setFavorites(updated);
-                localStorage.setItem('favorites', JSON.stringify(updated));
-              }}
-              style={{ marginTop: '10px' }}
-            >
-              ⭐ Save {weather.name} to Favorites
-            </button>
+      {(weather || forecast.length > 0) && (
+        <div className="main-panels">
+          <div className='panel-inner'>
+          {weather && (
+            <div className="main-weather">
+              <WeatherCard
+                city={weather.name}
+                temperature={weather.main.temp}
+                description={weather.weather[0].description}
+                icon={weather.weather[0].icon}
+                feelsLike={weather.main.feels_like}
+                min={weather.main.temp_min}
+                max={weather.main.temp_max}
+              />
+            </div>
+            
           )}
-        </>
+          <div className='right-panel-box'>
+          {aqi !== null && (
+            <div className="main-aqi">
+              <AQICard aqi={aqi} />
+            </div>
+            
+          )}
+          <div>
+          {forecast.length > 0 && (
+        
+        <div>
+          <h3 style={{ color: '#fff', marginTop: '20px' }}>5-Day Forecast</h3>
+          <div className="forecast-row">
+            <ForecastRowGrouped forecast={forecast} />
+          </div>
+        </div>
+      )}
+          </div>
+          </div>
+          
+          </div>
+        </div>
       )}
 
       {forecast.length > 0 && (
+        
         <div>
+          <HourlyForecast forecast={forecast} />
           <h3 style={{ color: '#fff', marginTop: '20px' }}>5-Day Forecast</h3>
-          <ForecastRowGrouped forecast={forecast} />
+          {/* <div className="forecast-row">
+            <ForecastRowGrouped forecast={forecast} />
+          </div> */}
+          
+          <WeatherTrendsChart forecast={forecast} />
         </div>
       )}
     </div>
