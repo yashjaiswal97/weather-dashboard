@@ -1,4 +1,4 @@
-// src/components/AQICard.tsx
+
 import React from 'react';
 import './AQICard.css';
 
